@@ -28,7 +28,7 @@ from photonai.base.PhotonBase import OutputSettings, Hyperpipe, PipelineElement
 from photonai.optimization.Hyperparameters import Categorical, FloatRange
 
 
-def construct_hyperpipe(name, project_folder, cache_dir):
+def construct_hyperpipe(name, project_folder, cache_dir: str = '../../cache'):
     # cv
     outer_cv = StratifiedKFoldRegression(n_splits=10, shuffle=True, random_state=3)
     inner_cv = StratifiedKFoldRegression(n_splits=3, shuffle=True, random_state=4)

@@ -1,9 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=perm_whole_brain
-#SBATCH --output=/scratch/tmp/wintern/iq_frankfurt/analyses/whole_brain/output_perm_whole_brain.dat
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=wintern@uni-muenster.de
+#SBATCH --job-name=perm_whole_brain_noTiv
+#SBATCH --output=output_perm_whole_brain_noTiv.dat
 #
 #SBATCH --partition normal
 #SBATCH --ntasks=1
@@ -18,7 +16,7 @@ module add intel
 module add Python
 
 # go to working directory
-cd /scratch/tmp/wintern/iq_frankfurt/analyses/whole_brain/
+cd /scratch/tmp/wintern/iq_frankfurt/analyses/noTivRescaling/whole_brain/
 
 # activate python environment
 source /scratch/tmp/wintern/iq_frankfurt/envs/photonai-env/bin/activate

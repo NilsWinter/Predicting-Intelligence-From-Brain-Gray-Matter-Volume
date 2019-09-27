@@ -30,7 +30,7 @@ from photonai.neuro.AtlasStacker import AtlasInfo
 
 
 class IQData:
-    def __init__(self, data_folder, tiv_rescaled=True):
+    def __init__(self, data_folder: str = '../../', tiv_rescaled=True):
         self.folder = data_folder
         self.tiv_rescaled = tiv_rescaled
         self.whole_brain = None

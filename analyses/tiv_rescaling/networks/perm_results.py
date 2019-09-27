@@ -21,7 +21,7 @@ Translationale Psychiatrie
 Universitaetsklinikum Muenster
 """
 
-from analyses.perm_test_helper import load_perm_results_from_folder, calculate_p, metrics_list_to_dict, load_results
+from helper.perm_test_helper import load_perm_results_from_folder, calculate_p, metrics_list_to_dict, load_results
 import numpy as np
 import glob
 from os import path

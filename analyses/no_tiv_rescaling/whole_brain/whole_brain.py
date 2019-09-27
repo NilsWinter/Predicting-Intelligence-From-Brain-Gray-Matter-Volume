@@ -29,16 +29,14 @@ import os
 
 
 analysis_name = 'whole_brain_no_tiv'
-data_folder = '/scratch/tmp/wintern/iq_frankfurt/'
-project_folder = '/scratch/tmp/wintern/iq_frankfurt/results/noTivRescaling/whole_brain'
-cache_dir = '/scratch/tmp/wintern/cache'
+project_folder = '.'
 
 # get data
-data = IQData(data_folder=data_folder, tiv_rescaled=False)
+data = IQData(tiv_rescaled=False)
 covariates = np.asarray([data.age, data.gender, data.handedness]).T
 data.load_whole_brain(use_cached=False)
 
 # run analysis
-pipe = construct_hyperpipe(analysis_name, project_folder, cache_dir)
+pipe = construct_hyperpipe(analysis_name, project_folder)
 pipe.fit(data.whole_brain, data.fsiq, **{'covariates': covariates})
 os.remove(pipe.output_settings.pretrained_model_filename)
