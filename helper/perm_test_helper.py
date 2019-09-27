@@ -1,16 +1,19 @@
 """
 ===========================================================
-Project: IQ-Project
+Project: Predicting Intelligence from Brain Gray Matter
 ===========================================================
 Description
 -----------
-Helper functions for calculating p values of permutation tests
+Helper functions for collecting the results of the distributed permutation test
+
+PHOTON Branch
+-------------
+project/IQ_prediction_280119
 
 Version
 -------
-Created:        05-02-2019
-Last updated:   05-02-2019
-
+Created:        28-01-2019
+Last updated:   27-09-2019
 
 Author
 ------
@@ -20,15 +23,13 @@ Translationale Psychiatrie
 Universitaetsklinikum Muenster
 """
 
-
 import glob
-from photonai.validation.ResultsDatabase import MDBHelper
-import numpy as np
-from scipy.stats import pearsonr
-import warnings
-warnings.filterwarnings("ignore")
 import os
 
+import numpy as np
+from scipy.stats import pearsonr
+
+from photonai.validation.ResultsDatabase import MDBHelper
 
 
 def load_perm_results_from_folder(pipe_name, results_folder):
@@ -120,6 +121,7 @@ def metrics_list_to_dict(perm_results):
                 perf[metric].append(perm[metric])
     return perf
 
+
 def calculate_differences(tiv, notiv, sort=False, absolute=True):
     diff = dict()
     for metric in tiv.keys():
@@ -158,6 +160,7 @@ def calculate_metric_r(y_true, y_pred, fold_indices):
         pred = y_pred[fold_indices==fold]
         r_values.append(pearsonr(true,pred)[0])
     return r_values
+
 
 def exclude_nan(x):
     return [i for i in x if i is not None]

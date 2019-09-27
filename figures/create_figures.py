@@ -1,16 +1,19 @@
 """
 ===========================================================
-Project: IQ Prediction
+Project: Predicting Intelligence from Brain Gray Matter
 ===========================================================
 Description
 -----------
-Save results and visualize them.
+Process and save results. Create figures presented in the paper.
+
+PHOTON Branch
+-------------
+project/IQ_prediction_280119
 
 Version
 -------
-Created:        05-04-2019
-Last updated:   05-04-2019
-
+Created:        28-01-2019
+Last updated:   27-09-2019
 
 Author
 ------
@@ -22,14 +25,15 @@ Universitaetsklinikum Muenster
 
 import numpy as np
 import pandas as pd
-import matplotlib.pylab as plt
-from matplotlib import gridspec
 from glob import glob
-from photonai.validation.ResultsTreeHandler import ResultsTreeHandler
-from analyses.perm_test_helper import calculate_p, metrics_list_to_dict, calculate_differences, calculate_metric_r, \
-    exclude_nan
+import matplotlib.pylab as plt
 import seaborn as sns
-from DemoFiles.Nils.figures.figure_collection import group_boxplot, hist_permutation_test
+from photonai.validation.ResultsTreeHandler import ResultsTreeHandler
+
+from helper.perm_test_helper import calculate_p, metrics_list_to_dict, calculate_differences, calculate_metric_r, \
+    exclude_nan
+
+from helper.figure_collection import group_boxplot, hist_permutation_test
 
 
 class Results:
@@ -47,8 +51,8 @@ class Results:
 #----------------------
 # Get and save results
 #----------------------
-networks = ["whole_brain", "visual", "somatomotor", "dorsal_attention", "ventral_attention", "limbic", "fronto_parietal",
-            "default_mode", "subcortical", "cerebellum"]
+networks = ["whole_brain", "visual", "somatomotor", "dorsal_attention", "ventral_attention", "limbic",
+            "fronto_parietal", "default_mode", "subcortical", "cerebellum"]
 
 results_folder = {'TivRescaling': '/spm-data/Scratch/spielwiese_nils_winter/iq_frankfurt/perm_test_050219',
                   'NoTivRescaling': '/spm-data/Scratch/spielwiese_nils_winter/iq_frankfurt/noTivRescaling'}
@@ -195,8 +199,6 @@ for analysis in results_folder.keys():
         plt.tight_layout()
         plt.savefig('global_and_local_performance_{}_{}'.format(analysis, metric))
 
-
-
 # histograms permutation test
 for metric in ['mean_squared_error', 'mean_absolute_error']:
     # differences
@@ -214,8 +216,7 @@ for metric in ['mean_squared_error', 'mean_absolute_error']:
     plt.savefig('Permutation_Test_Differences_{}.png'.format(metric), dpi=300)
     plt.show()
 
-# performance
-for metric in ['mean_squared_error', 'mean_absolute_error']:
+#    performance
     for analysis in results_folder.keys():
         sns.set()
         sns.set_style("white")
@@ -234,6 +235,3 @@ for metric in ['mean_squared_error', 'mean_absolute_error']:
         plt.tight_layout()
         plt.savefig('Permutation_Test_{}_{}.png'.format(analysis, metric), dpi=300)
         plt.show()
-
-
-debug = True
