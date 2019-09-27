@@ -28,7 +28,21 @@ significantly correlates with the variable of interest, i.e., the targets of the
 To do this, we calculated each subject’s TIV and rescaled the gray matter value of each voxel by (1) dividing it by the 
 subject’s individual TIV value and then (2) multiplying the result with the mean TIV value of the whole group. 
 
-## 3 Software Requirements
+After correcting for individual TIV values, we organised the data in two folders, one containing the corrected and one 
+the uncorrected gray matter maps.
+
+## 3 Software and Hardware Requirements
+### Software
+For all analyses, we used the publicly available machine learning Python toolbox PHOTON 
+([PHOTON](https://github.com/photon-team/photon)). To install the PHOTON version used here, do
+```
+pip install git+https://github.com/photon-team/photon@predicting-intelligence-from-brain-gray-matter
+```
+### Hardware
+Since running the permutation test for all analyses is quite resource intense, we used a High-Performance-Cluster (HPC) 
+with SLURM job scheduling. The scripts for the permutation tests provided here open a SLURM task array with 1000 tasks, 
+each representing a permutation run. If you want to run a permutation test without a cluster, you can do so by using the 
+PermutationTest() class within PHOTON. However, this will probably take weeks to finish.
 
 ## 4 ML PHOTON Base Analysis
 
