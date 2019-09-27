@@ -14,7 +14,7 @@ project/IQ_prediction_280119
 Version
 -------
 Created:        28-01-2019
-Last updated:   28-01-2019
+Last updated:   27-09-2019
 
 Author
 ------
