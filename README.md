@@ -42,12 +42,22 @@ pip install git+https://github.com/photon-team/photon@predicting-intelligence-fr
 Since running the permutation test for all analyses is quite resource intense, we used a High-Performance-Cluster (HPC) 
 with SLURM job scheduling. The scripts for the permutation tests provided here open a SLURM task array with 1000 tasks, 
 each representing a permutation run. If you want to run a permutation test without a cluster, you can do so by using the 
-PermutationTest() class within PHOTON. However, this will probably take weeks to finish.
+PermutationTest() class within PHOTON. However, this will probably take weeks to finish so using a cluster is highly 
+recommended.
 
-## 4 ML PHOTON Base Analysis
+## 4 Analysis
+### Retrieving the data
+The module data.py provides a helper class IQData() that encapsulates the data loading procedure to simplify the use of 
+multiple scripts for every part of the analyses. When IQData() is instantiated, the subjects' information is automatically 
+loaded and saved within the object itself. By using load_whole_brain() and load_single_networks(), the nifti images are 
+loaded using PHOTON Neuro. A BrainAtlas PipelineElement then takes care of loading the nifti images and applying an 
+atlas to retrieve either the whole brain or networks data. To separate between the tiv-corrected and uncorrected data,
+one can simply pass a boolean to tiv_rescaled when instantiating the IQData object.
 
-## 5 Global Analysis (Whole Brain) 
+### Constructing a PHOTON hyperpipe
 
-## 6 Local Analysis (Networks)
+### Global Analysis (Whole Brain) 
+
+### Local Analysis (Networks)
 
 ## References
