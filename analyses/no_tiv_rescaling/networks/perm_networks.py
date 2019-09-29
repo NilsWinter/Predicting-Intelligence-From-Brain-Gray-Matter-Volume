@@ -1,15 +1,15 @@
 """
 ===========================================================
-Project: IQ-Prediction Frankfurt
+Project: Predicting Intelligence from Brain Gray Matter
 ===========================================================
 Description
 -----------
-Permutation script for network analysis
+Permutation script for network analysis (without TIV rescaling)
 
 Version
 -------
 Created:        02-02-2019
-Last updated:   18-02-2019
+Last updated:   29-09-2019
 
 Author
 ------
@@ -19,8 +19,6 @@ Translationale Psychiatrie
 Universitaetsklinikum Muenster
 """
 import sys
-sys.path.append('/scratch/tmp/wintern/iq_frankfurt/photonai')
-sys.path.append('/scratch/tmp/wintern/iq_frankfurt/')
 from analyses.analysis_base import construct_hyperpipe
 from data.data import IQData
 import numpy as np
@@ -44,13 +42,11 @@ def run_perm_test(row, network_index):
     perm_y = row_array[1]
     perm_y = np.asarray(perm_y.split(',')).astype(int)
 
-    analysis_name = network_names[network_index] + '_noTiv_perm_' + str(perm_ind)
-    data_folder = '/scratch/tmp/wintern/iq_frankfurt/'
-    project_folder = '/scratch/tmp/wintern/iq_frankfurt/results/noTivRescaling/perm/networks/' + network_names[network_index]
-    cache_dir = '/scratch/tmp/wintern/cache'
+    analysis_name = network_names[network_index] + '_no_tiv_rescaling_perm_' + str(perm_ind)
+    project_folder = './perms/'
 
     # get data
-    data = IQData(data_folder=data_folder, tiv_rescaled=False)
+    data = IQData(tiv_rescaled=False)
     covariates = np.asarray([data.age, data.gender, data.handedness]).T
     data.load_single_networks(use_cached=True)
     X = data.networks[network_index]
@@ -58,7 +54,7 @@ def run_perm_test(row, network_index):
     del data
 
     # run analysis
-    pipe = construct_hyperpipe(analysis_name, project_folder, cache_dir)
+    pipe = construct_hyperpipe(analysis_name, project_folder)
     pipe.groups = y
     pipe.fit(X, perm_y, **{'covariates': covariates})
     os.remove(pipe.output_settings.pretrained_model_filename)

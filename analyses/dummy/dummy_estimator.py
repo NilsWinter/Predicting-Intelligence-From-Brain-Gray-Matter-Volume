@@ -33,7 +33,7 @@ import pandas as pd
 
 
 data_folder = '../../'
-data = IQData(data_folder=data_folder)
+data = IQData()
 y = np.asarray(data.fsiq)
 X = np.ones((y.shape[0], 2))
 outer_cv = StratifiedKFoldRegression(n_splits=10, shuffle=True, random_state=3)

@@ -32,11 +32,10 @@ def run_perm_test(row):
     perm_y = np.asarray(perm_y.split(',')).astype(int)
 
     analysis_name = 'whole_brain_noTiv_perm_' + str(perm_ind)
-    data_folder = '/scratch/tmp/wintern/iq_frankfurt/'
     project_folder = './perm/'
 
     # get data
-    data = IQData(data_folder=data_folder, tiv_rescaled=False)
+    data = IQData(tiv_rescaled=False)
     covariates = np.asarray([data.age, data.gender, data.handedness]).T
     data.load_whole_brain(use_cached=True)
 

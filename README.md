@@ -99,9 +99,9 @@ pipe += PipelineElement('LinearSVR', {
     'epsilon': FloatRange(0.01, 3, range_type='linspace')})
 ```
 ### Global Analysis (Whole Brain) 
-
+To run the global whole brain analysis
 ### Local Analysis (Networks)
 
-## 5 How to run the scripts
+## Permutation Test
 
 ## References

@@ -1,15 +1,15 @@
 """
 ===========================================================
-Project: IQ-Prediction Frankfurt
+Project: Predicting Intelligence from Brain Gray Matter
 ===========================================================
 Description
 -----------
-This scripts implements single network analysis using NoTivRescaling
+Permutation script for network analysis
 
 Version
 -------
-Created:        28-01-2019
-Last updated:   17-03-2019
+Created:        02-02-2019
+Last updated:   29-09-2019
 
 Author
 ------
@@ -19,8 +19,6 @@ Translationale Psychiatrie
 Universitaetsklinikum Muenster
 """
 import sys
-sys.path.append('/scratch/tmp/wintern/iq_frankfurt/photonai')
-sys.path.append('/scratch/tmp/wintern/iq_frankfurt/')
 from analyses.analysis_base import construct_hyperpipe
 from data.data import IQData
 import numpy as np
@@ -39,13 +37,11 @@ def run_network(network_index):
                      7: "subcortical",
                      8: "cerebellum"}
 
-    analysis_name = network_names[network_index] + '_second_test_run'
-    data_folder = '/scratch/tmp/wintern/iq_frankfurt/'
-    project_folder = '/scratch/tmp/wintern/iq_frankfurt/results/noTivRescaling/networks/' + network_names[network_index]
-    cache_dir = '/scratch/tmp/wintern/cache'
+    analysis_name = network_names[network_index] + "_no_tiv_rescaling"
+    project_folder = '.'
 
     # get data
-    data = IQData(data_folder=data_folder, tiv_rescaled=False)
+    data = IQData(tiv_rescaled=False)
     covariates = np.asarray([data.age, data.gender, data.handedness]).T
     data.load_single_networks(use_cached=False)
     X = data.networks[network_index]
@@ -53,7 +49,7 @@ def run_network(network_index):
     del data
 
     # run analysis
-    pipe = construct_hyperpipe(analysis_name, project_folder, cache_dir)
+    pipe = construct_hyperpipe(analysis_name, project_folder)
     pipe.fit(X, y, **{'covariates': covariates})
     os.remove(pipe.output_settings.pretrained_model_filename)
 

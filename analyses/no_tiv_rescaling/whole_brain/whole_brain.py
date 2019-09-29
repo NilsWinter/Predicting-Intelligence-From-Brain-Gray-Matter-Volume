@@ -1,16 +1,15 @@
 """
 ===========================================================
-Project: IQ-Prediction Frankfurt
+Project: Predicting Intelligence from Brain Gray Matter
 ===========================================================
 Description
 -----------
-This scripts implements whole brain analysis with NoTivRescaling
-(This is the data that hasn't been rescaled by Kirsten)
+This scripts implements the global (whole brain) analysis without TiV rescaling
 
 Version
 -------
 Created:        28-01-2019
-Last updated:   18-02-2019
+Last updated:   29-09-2019
 
 Author
 ------
@@ -19,22 +18,18 @@ nils.r.winter@gmail.com
 Translationale Psychiatrie
 Universitaetsklinikum Muenster
 """
-import sys
-sys.path.append('/scratch/tmp/wintern/iq_frankfurt/photonai')
-sys.path.append('/scratch/tmp/wintern/iq_frankfurt/')
 from analyses.analysis_base import construct_hyperpipe
 from data.data import IQData
 import numpy as np
 import os
 
-
-analysis_name = 'whole_brain_no_tiv'
+analysis_name = 'whole_brain_no_tiv_rescaling'
 project_folder = '.'
 
 # get data
-data = IQData(tiv_rescaled=False)
+data = IQData()
 covariates = np.asarray([data.age, data.gender, data.handedness]).T
-data.load_whole_brain(use_cached=False)
+data.load_whole_brain(use_cached=True)
 
 # run analysis
 pipe = construct_hyperpipe(analysis_name, project_folder)
