@@ -9,7 +9,7 @@ from Brain Gray Matter Volume". The scripts within this repository can be used t
 
 ## 1 Data
 In this study, we used T1-weighted MR images aquired by the Nathan S. Kline Institute for Psychiatric Research (NKI) and 
-released as part of the 1000 functional connectomes project (1).
+released as part of the 1000 functional connectomes project.
 
 Data can be downloaded from: 
 [NITRC NKI DATA](http://www.nitrc.org/ir/app/template/XDATScreen_report_xnat_projectData.vm/search_element/xnat:projectData/search_field/xnat:projectData.ID/search_value/nki_rockland)
@@ -99,9 +99,15 @@ pipe += PipelineElement('LinearSVR', {
     'epsilon': FloatRange(0.01, 3, range_type='linspace')})
 ```
 ### Global Analysis (Whole Brain) 
-To run the global whole brain analysis
+To run the global whole brain analysis, execute the script whole_brain.py either in the tiv_rescaling or no_tiv_rescaling 
+folder.
+
 ### Local Analysis (Networks)
+To run the local network analysis, execute the script networks.py either in the tiv_rescaling or no_tiv_rescaling 
+folder.
 
 ## Permutation Test
-
-## References
+The permutation test can be done in two separate steps. First, execute the perm_whole_brain.py or perm_networks.py scripts 
+in a for loop iterating over rows in the "data/permuted_labels.csv" file. Every row corresponds to one permutation run.
+Second, once you've computed all permutation runs, collect the results by running the perm_results.py script. This can 
+be done either for the TIV rescaled or not TIV rescaled version.
