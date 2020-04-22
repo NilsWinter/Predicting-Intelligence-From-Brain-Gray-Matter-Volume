@@ -62,3 +62,36 @@ def construct_hyperpipe(name, project_folder, cache_dir: str = '../../cache'):
         'C': FloatRange(0.000001, 1, range_type='linspace'),
         'epsilon': FloatRange(0.01, 3, range_type='linspace')})
     return pipe
+
+def construct_hyperpipe_schaefer(name, project_folder, cache_dir):
+    # cv
+    outer_cv = StratifiedKFoldRegression(n_splits=10, shuffle=True, random_state=3)
+    inner_cv = StratifiedKFoldRegression(n_splits=3, shuffle=True, random_state=4)
+
+    # define output
+    output = OutputSettings(
+        save_predictions='best',
+        save_feature_importances='None',
+        project_folder=project_folder)
+
+    # define hyperpipe
+    pipe = Hyperpipe(name=name,
+                     optimizer='sk_opt',
+                     optimizer_params={'num_iterations': 50, 'base_estimator': 'GP'},
+                     metrics=['mean_squared_error', 'mean_absolute_error', 'variance_explained'],
+                     best_config_metric='mean_squared_error',
+                     outer_cv=outer_cv,
+                     inner_cv=inner_cv,
+                     eval_final_performance=True,
+                     verbosity=1,
+                     output_settings=output)
+
+    # add named_steps to hyperpipe
+    # add confounder removal first
+    pipe += PipelineElement('ConfounderRemoval', {}, standardize_covariates=True, cache_dir=cache_dir,
+                            test_disabled=False)
+
+    pipe += PipelineElement('LinearSVR', {
+        'C': FloatRange(0.000001, 1, range_type='linspace'),
+        'epsilon': FloatRange(0.01, 3, range_type='linspace')})
+    return pipe

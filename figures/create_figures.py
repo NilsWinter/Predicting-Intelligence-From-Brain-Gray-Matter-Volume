@@ -51,14 +51,33 @@ class Results:
 #----------------------
 # Get and save results
 #----------------------
+# Use these to create plots for PCA analysis
 networks = ["whole_brain", "visual", "somatomotor", "dorsal_attention", "ventral_attention", "limbic",
             "fronto_parietal", "default_mode", "subcortical", "cerebellum"]
+
+# Use these to create plots for Schaefer analysis
+#networks = ["schaefer400",
+#            "schaefer_visual", "schaefer_somatomotor", "schaefer_dorsal_attention", "schaefer_ventral_attention",
+#            "schaefer_limbic", "schaefer_fronto_parietal", "schaefer_default_mode"]
 
 results_folder = {'TivRescaling': '/spm-data/Scratch/spielwiese_nils_winter/iq_frankfurt/perm_test_050219',
                   'NoTivRescaling': '/spm-data/Scratch/spielwiese_nils_winter/iq_frankfurt/noTivRescaling'}
 
 metrics = ['mean_squared_error', 'mean_absolute_error']
 
+# Dummy performance to plot horz line in boxplots
+mean_dummy_mae = 10.480068
+std_dummy_mae = 0.318166
+mean_dummy_mse = 166.932945
+std_dummy_mse = 14.403685
+mean_dummy_rmse = np.sqrt(mean_dummy_mse)
+std_dummy_rmse = np.sqrt(std_dummy_mse)
+dummy = {'mean squared error': [mean_dummy_mse, std_dummy_mse],
+         'mean absolute error': [mean_dummy_mae, std_dummy_mae],
+         'root mean squared error': [mean_dummy_rmse, std_dummy_rmse]}
+y_limits = {'mean squared error': (75, 450),
+            'mean absolute error': (7, 25),
+            'root mean squared error': (7, 25)}
 
 results = {}
 for analysis, analysis_folder in results_folder.items():
@@ -181,16 +200,24 @@ for analysis in results_folder.keys():
         # whole brain
         ax = group_boxplot(pd.DataFrame(df['WHOLE BRAIN']), ['WHOLE BRAIN'], colors=None, ylabel=metric.upper(),
                            figsize=(4, 6))
+        ax.axhline(dummy[metric][0], ls='--')
+        ax.set_ylim(y_limits[metric])
         plt.savefig('global_performance_{}_{}'.format(analysis, metric))
 
         # local
-        group_boxplot(df[network_names[1:]], network_names[1:], colors=colors, ylabel=metric.upper())
+        ax = group_boxplot(df[network_names[1:]], network_names[1:], colors=colors, ylabel=metric.upper())
+        ax.axhline(dummy[metric][0], ls='--')
+        ax.set_ylim(y_limits[metric])
         plt.savefig('local_performance_{}_{}'.format(analysis, metric))
 
         # both in one figure
         fig = plt.figure(figsize=(10, 6))
         ax1 = plt.subplot2grid((1, 5), (0, 0))
         ax2 = plt.subplot2grid((1, 5), (0, 1), colspan=4)
+        ax1.set_ylim(y_limits[metric])
+        ax2.set_ylim(y_limits[metric])
+        ax1.axhline(dummy[metric][0], ls='--')
+        ax2.axhline(dummy[metric][0], ls='--')
 
         group_boxplot(pd.DataFrame(df['WHOLE BRAIN']), ['WHOLE BRAIN'], colors=None, ylabel=metric.upper(), ax=ax1)
         ax1.set_xticklabels(['WHOLE BRAIN'], rotation=45, ha='right')
