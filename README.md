@@ -3,6 +3,9 @@ Hilger, Winter et al. (2019)
 
 #### Project Phase
 submitted to Brain Structure and Function
+
+resubmitted after revision
+
 #### Description
 The following repository provides a detailed description of all Python scripts used in the paper "Prediction Intelligence 
 from Brain Gray Matter Volume". The scripts within this repository can be used to replicate the published results.
@@ -98,16 +101,23 @@ pipe += PipelineElement('LinearSVR', {
     'C': FloatRange(0.000001, 1, range_type='linspace'),
     'epsilon': FloatRange(0.01, 3, range_type='linspace')})
 ```
-### Global Analysis (Whole Brain) 
-To run the global whole brain analysis, execute the script whole_brain.py either in the tiv_rescaling or no_tiv_rescaling 
-folder.
+### Analyses
 
-### Local Analysis (Networks)
-To run the local network analysis, execute the script networks.py either in the tiv_rescaling or no_tiv_rescaling 
-folder.
+To incorporate the great feedback we had received from reviewers, we've added additional analyses to our paper. Initially, we were running all analyses with a __PCA-based dimensionality reduction__. Now, we've added an __atlas-based parcellation__ approach as a domain knowledge-based feature construction. We've implemented the atlases suggested by the reviewers (Schaefer parcellation, 400 and 100 parcels) and added another functional (Shen) and structural (AAL) atlas. The different analyses are now organized in separate folders. If you would like to run the analyses, make sure to update the paths (to data and results) in the scripts.
 
-## Permutation Test
-The permutation test can be done in two separate steps. First, execute the perm_whole_brain.py or perm_networks.py scripts 
+Every analysis comes with a [analysis_name].py file to run just the predictive model and hyperparameter optimization for a specific atlas. Additionally, there perm_[analysis_name].py files that will run a permutation test for that specific atlas and analysis.
+
+There is one folder for __relative__ (TivRescaling) and one for __absolute__ (noTivRescaling) brain volume.
+
+## 5 Permutation Test
+
+The permutation test can be done in two separate steps. First, execute the perm_[analysis_name].py script 
 in a for loop iterating over rows in the "data/permuted_labels.csv" file. Every row corresponds to one permutation run.
 Second, once you've computed all permutation runs, collect the results by running the perm_results.py script. This can 
 be done either for the TIV rescaled or not TIV rescaled version.
+
+
+
+## 6 Figures
+
+To create the figures presented in the paper, run the create_figures.py in the figures folder. You will need to run it twice, once for the PCA-based and once for the atlas-based approach.
